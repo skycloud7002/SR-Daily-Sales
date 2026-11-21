@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রভাত এসই সামারি - দৈনিক ও মাসিক বিক্রয় হিসাব</title>
+    <style>
+        :root {
+            --mygp-blue: #0077FF;
+            --mygp-cyan: #00C6FF;
+            --deep-navy: #091E42;
+            --royal-blue: #0052CC;
+        }
+        * {
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(180deg, #E0F2FE 0%, #F1F5F9 100%);
+            color: #0F172A;
+            padding: 10px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border-radius: 18px;
+            box-shadow: 0 12px 32px rgba(9, 30, 66, 0.16);
+            overflow: hidden;
+            border: 1px solid #BAE6FD;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
+            color: #FFFFFF;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .header-title p {
+            font-size: 12px;
+            opacity: 0.95;
+        }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .top-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .mini-avatar {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #FACC15;
+        }
+        .section {
+            padding: 14px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #0F172A;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #FFFFFF;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: var(--mygp-blue);
+            box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.12);
+        }
+        .restore-box {
+            background: #FEF9C3;
+            border: 1.5px solid #FACC15;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .restore-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        .btn-restore {
+            background: #0F172A;
+            color: #FACC15;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .product-card {
+            background: linear-gradient(135deg, #0077FF 0%, #00A8FF 100%);
+            padding: 10px;
+            border-radius: 14px;
+            margin: 10px 0;
+            box-shadow: 0 6px 16px rgba(0, 119, 255, 0.2);
+        }
+        .product-card-title {
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFFFF;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th {
+            background: #091E42;
+            color: #FFFFFF;
+            padding: 7px 6px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+        }
+        th:nth-child(2), td:nth-child(2) {
+            text-align: center;
+            width: 112px;
+        }
+        th:nth-child(3), td:nth-child(3) {
+            text-align: right;
+            width: 108px;
+        }
+        th:nth-child(4), td:nth-child(4) {
+            text-align: center;
+            width: 34px;
+        }
+        td {
+            padding: 6px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background-color: #F0F9FF;
+        }
+        .qty-input {
+            width: 102px;
+            text-align: center;
+            padding: 5px 4px;
+            border: 1.5px solid #93C5FD;
+            font-weight: 700;
+            font-size: 14px;
+            color: #0052CC;
+        }
+        .btn-del-row {
+            background: #FEE2E2;
+            color: #DC2626;
+            border: none;
+            border-radius: 6px;
+            width: 26px;
+            height: 28px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .bank-section {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border: 1.5px solid #7DD3FC;
+            border-radius: 14px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .bank-header h3 {
+            font-size: 15px;
+            color: #0369A1;
+            font-weight: 700;
+        }
+        .badge {
+            background: #0052CC;
+            color: #FFFFFF;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .bank-card-item {
+            background: #FFFFFF;
+            border: 1px solid #BAE6FD;
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .bank-row {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr 32px;
+            gap: 6px;
+            align-items: end;
+        }
+        .btn-remove {
+            background: #FEE2E2;
+            color: #DC2626;
+            border: none;
+            border-radius: 8px;
+            height: 36px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-add-bank {
+            background: #FFFFFF;
+            color: #0052CC;
+            border: 1.5px dashed #0052CC;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .summary-card-bottom {
+            background: linear-gradient(135deg, #091E42 0%, #0052CC 100%);
+            color: #FFFFFF;
+            padding: 14px;
+            border-radius: 14px;
+            margin: 12px 0;
+        }
+        .sum-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .sum-line.highlight {
+            border-top: 1px dashed rgba(255,255,255,0.35);
+            padding-top: 8px;
+            margin-top: 6px;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FACC15;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 11px 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #091E42, #0052CC);
+            color: #FFFFFF;
+        }
+        .btn-secondary {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+        .btn-share {
+            background: #059669;
+            color: #FFFFFF;
+        }
+        #previewBox {
+            border: 2px solid #091E42;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #FFFFFF;
+        }
+        .prev-head {
+            background: linear-gradient(135deg, #091E42 0%, #0052CC 100%);
+            color: #FFFFFF;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .prev-date-pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .prev-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2.5px solid #F59E0B;
+            background: #FFFFFF;
+        }
+        .prev-se {
+            background: linear-gradient(90deg, #F59E0B, #FACC15);
+            color: #091E42;
+            text-align: center;
+            padding: 7px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .prev-table th {
+            background: #1E293B;
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+        .prev-table td {
+            padding: 5px 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .prev-foot {
+            background: linear-gradient(135deg, #091E42 0%, #1E3A8A 100%);
+            color: #FFFFFF;
+            padding: 12px 14px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .prev-meta-bar {
+            background: #F1F5F9;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            border-top: 1px solid #CBD5E1;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(9, 30, 66, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 16px;
+        }
+        .modal-box {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+        .history-item {
+            background: #F8FAFC;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .powered-footer {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            padding: 10px;
+            background: #F1F5F9;
+            border-top: 1px solid #E2E8F0;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .admin-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 34px;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-title">
+            <h1>প্রভাত এসই সামারি</h1>
+            <p>দৈনিক ও মাসিক বিক্রয় হিসাব</p>
+        </div>
+        <div class="header-actions">
+            <button type="button" class="top-btn hidden" id="logoutBtn" onclick="logoutUser()">লগআউট</button>
+            <button type="button" class="top-btn" onclick="openHistoryView()">সংরক্ষিত রিপোর্ট</button>
+            <button type="button" class="top-btn" onclick="openProfileView()">
+                <img id="topAvatarImg" class="mini-avatar hidden" alt="SE">
+                <span>প্রোফাইল</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div id="loginView" class="section">
+        <h3 style="color:#0052CC;margin-bottom:8px;">লগইন করুন</h3>
+        <div class="form-group"><label>User ID</label><input type="text" id="loginUserId" placeholder="আপনার User ID লিখুন" autocomplete="username"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="আপনার Password লিখুন" autocomplete="current-password" onkeydown="if(event.key==='Enter') loginUser()"></div>
+        <label style="display:flex;align-items:center;gap:8px;margin:8px 0 12px;"><input type="checkbox" id="rememberLogin" checked style="width:auto;"><span>Remember Me</span></label>
+        <button type="button" class="btn btn-primary" style="width:100%;" onclick="loginUser()">Login</button>
+        <p id="loginMessage" style="font-size:13px;color:#DC2626;font-weight:700;margin-top:8px;"></p>
+    </div>
+
+    <div id="entryView" class="section">
+        <div class="form-grid">
+            <div>
+                <label>তারিখ</label>
+                <input type="date" id="salesDate" onkeydown="return false" onpaste="return false" title="ক্যালেন্ডার থেকে তারিখ নির্বাচন করুন">
+            </div>
+            <div>
+                <label>বার</label>
+                <input type="text" id="salesDay" readonly aria-readonly="true" style="background:#F1F5F9;cursor:not-allowed;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>এসই-এর নাম (SE Name)</label>
+            <input type="text" id="seName" placeholder="প্রোফাইলে সংরক্ষিত নাম এখানে দেখাবে" readonly aria-readonly="true" style="background:#F1F5F9;cursor:not-allowed;">
+        </div>
+
+        <div id="hiddenProductsBox" class="restore-box hidden">
+            <label style="color:#854D0E;font-size:12px;">অতিরিক্ত বা বাদ দেওয়া পণ্য যোগ করুন:</label>
+            <div class="restore-row">
+                <select id="hiddenProductsSelect"></select>
+                <button type="button" class="btn-restore" onclick="restoreSelectedProduct()">+ যোগ করুন</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-card-title">
+                <span>বিক্রয় পণ্যের তালিকা</span>
+                <span>পরিমাণ দিন</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>পণ্যের নাম</th>
+                        <th>পরিমাণ</th>
+                        <th>টাকা (৳)</th>
+                        <th>বাদ</th>
+                    </tr>
+                </thead>
+                <tbody id="productBody"></tbody>
+            </table>
+        </div>
+
+        <div class="bank-section">
+            <div class="bank-header">
+                <h3>ব্যাংক জমার বিবরণী</h3>
+                <span class="badge" id="bankCountBadge">মোট ব্যাংক: ১</span>
+            </div>
+            <div id="bankRowsContainer"></div>
+            <button type="button" class="btn-add-bank" onclick="addBankRow()">+ আরও ব্যাংক / অফিস জমা যোগ করুন</button>
+        </div>
+
+        <div class="summary-card-bottom">
+            <div class="sum-line">
+                <span>মোট প্রোডাক্ট বিক্রয় মূল্য:</span>
+                <span id="totalSalesTxt">০.০০ ৳</span>
+            </div>
+            <div class="sum-line">
+                <span>সর্বমোট ব্যাংক ও অফিস জমা:</span>
+                <span id="totalBankTxt">০.০০ ৳</span>
+            </div>
+            <div class="sum-line highlight">
+                <span>হাতে নগদ অবশিষ্ট টাকা:</span>
+                <span id="onHandTxt">০.০০ ৳</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="openPreview()">প্রিভিউ দেখুন</button>
+            <button class="btn btn-secondary hidden" id="openAdminButton" onclick="openAdminAuth()">অ্যাডমিন প্যানেল</button>
+            
+        </div>
+    </div>
+
+    <div id="previewView" class="section hidden">
+        <div id="previewBox">
+            <div class="prev-head">
+                <div>
+                    <h2 style="font-size: 20px; font-weight: 700;">প্রভাত এসই সামারি</h2>
+                    <div class="prev-date-pill" id="prevDateInfo"></div>
+                </div>
+                <img id="prevAvatarImg" class="prev-avatar hidden" alt="SE Photo">
+            </div>
+            <div class="prev-se" id="prevSeInfo"></div>
+            <table class="prev-table">
+                <thead>
+                    <tr>
+                        <th>পণ্যের নাম</th>
+                        <th>পরিমাণ</th>
+                        <th>টাকা (৳)</th>
+                    </tr>
+                </thead>
+                <tbody id="prevProductBody"></tbody>
+            </table>
+            <div class="prev-foot" id="prevFooterInfo"></div>
+            <div class="prev-meta-bar">
+                <span id="prevDownloadTime"></span>
+                <span id="prevPoweredTag"></span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="backToEntry()">তথ্য পরিবর্তন করুন</button>
+            <button class="btn btn-primary" onclick="downloadCurrentHD()">ছবি ডাউনলোড করুন (HD)</button>
+        </div>
+    </div>
+
+    <div id="profileView" class="section hidden">
+        <h3 style="color: #0052CC; margin-bottom: 10px;">এসই প্রোফাইল সেটিংস</h3>
+        <div class="form-group">
+            <label>আপনার নাম (বাধ্যতামূলক)</label>
+            <input type="text" id="profNameInput" placeholder="আপনার পূর্ণ নাম লিখুন" required>
+        </div>
+        <div class="form-group">
+            <label>DESIGNATION <span style="color:#DC2626">*</span> (বাধ্যতামূলক)</label>
+            <select id="profDesignationInput" required onchange="toggleDesignationReason()" style="text-transform:uppercase;">
+                <option value="">DESIGNATION নির্বাচন করুন</option>
+                <option value="SE">SE</option>
+                <option value="DS/SUP">DS/SUP</option>
+                <option value="DM">DM</option>
+                <option value="IT">IT</option>
+            </select>
+        </div>
+        <div class="form-group hidden" id="designationReasonWrap">
+            <label>এন্ট্রি দেওয়ার কারণ <span style="color:#DC2626">*</span></label>
+            <input type="text" id="designationReasonInput" placeholder="DS/SUP এন্ট্রি দেওয়ার কারণ লিখুন" oninput="this.value = this.value.toUpperCase()" style="text-transform:uppercase;">
+        </div>
+        <div class="form-group">
+            <label>আপনার ছবি নির্বাচন করুন (বাধ্যতামূলক)</label>
+            <input type="file" id="profPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)" required>
+        </div>
+        <div id="profPreviewWrap" class="hidden" style="text-align:center;margin:10px 0;">
+            <img id="profPreviewImg" style="width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid #0077FF;">
+            <div style="margin-top:6px;">
+                <button type="button" class="btn-del-row" style="width:auto;padding:0 10px;" onclick="removeProfilePhoto()">ছবি মুছুন</button>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="saveProfile()">প্রোফাইল সংরক্ষণ করুন</button>
+            <button class="btn btn-secondary" onclick="backToEntry()">ফিরে যান</button>
+        </div>
+    </div>
+
+    <div id="historyView" class="section hidden">
+        <h3 style="color: #091E42; margin-bottom: 10px;">মাসিক ও দৈনিক রিপোর্টের রেকর্ড (৩ মাস)</h3>
+        <div class="bank-section" style="margin-top:0;">
+            <label style="color:#0052CC;">মাস নির্বাচন করে সারা মাসের সামারি দেখুন:</label>
+            <select id="monthSelect" onchange="renderMonthlySummary()" style="margin-bottom:10px;"></select>
+            <div id="monthlySummaryBox" style="background:#FFFFFF;border-radius:10px;padding:10px;font-size:14px;"></div>
+            <button type="button" class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="downloadMonthlyHD()">সারা মাসের সামারি ডাউনলোড (HD)</button>
+        </div>
+
+        <h4 style="font-size:15px;color:#0F172A;margin-bottom:8px;">প্রতিদিনের সংরক্ষিত হিসাবসমূহ:</h4>
+        <div id="dailyHistoryList"></div>
+
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="backToEntry()">হোম পেজে ফিরে যান</button>
+        </div>
+    </div>
+
+    <div id="adminAuthView" class="section hidden">
+        <h3 style="color: #0052CC; margin-bottom: 8px;">অ্যাডমিন প্যানেল লগইন</h3>
+        <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">Admin ID ও Password দিন</p>
+        <input type="text" id="adminIdInput" placeholder="Admin ID" autocomplete="username" style="margin-bottom:8px;">
+        <input type="password" id="adminPassInput" placeholder="Admin Password" autocomplete="current-password">
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="verifyAdminPass()">প্রবেশ করুন</button>
+            <button class="btn btn-secondary" onclick="backToEntry()">ফিরে যান</button>
+        </div>
+    </div>
+
+    <div id="adminEditorView" class="section hidden">
+        <h3 style="color: #0052CC; margin-bottom: 8px;">পণ্য, দাম ও ব্যাংক পরিচালনা</h3>
+        <div id="adminProductsContainer"></div>
+        <button type="button" class="btn-add-bank" style="margin-bottom:12px;" onclick="addAdminProductRow()">+ নতুন পণ্য যোগ করুন</button>
+
+        <div class="form-group">
+            <label>স্থায়ী ব্যাংকের তালিকা (CAPITAL অক্ষরে)</label>
+            <div id="adminBanksContainer"></div>
+            <button type="button" class="btn-add-bank" onclick="addAdminBankRow()">+ নতুন ব্যাংক যোগ করুন</button>
+        </div>
+
+
+        <div class="form-group" style="border:1.5px solid #BAE6FD;border-radius:12px;padding:10px;margin-top:14px;">
+            <h4 style="color:#0052CC;margin-bottom:8px;">SR User Management</h4>
+            <label>নতুন SR User ID</label><input type="text" id="newSrUserId" placeholder="যেমন: SR001" autocomplete="off">
+            <label style="margin-top:8px;">নতুন SR Password</label><input type="text" id="newSrUserPass" placeholder="SR Password লিখুন" autocomplete="off">
+            <button type="button" class="btn-add-bank" style="margin-top:8px;" onclick="addSrUser()">+ SR User যোগ করুন</button>
+            <div id="srUsersContainer" style="margin-top:10px;"></div>
+            <p style="font-size:11px;color:#64748B;margin-top:8px;">HTML-only সীমাবদ্ধতা: SR অ্যাকাউন্ট এই ব্রাউজার/ডিভাইসেই সংরক্ষিত থাকবে; অন্য মোবাইলে নিজে থেকে Sync হবে না।</p>
+        </div>
+        <div class="form-group"><label>Admin ID পরিবর্তন করুন (ঐচ্ছিক)</label><input type="text" id="newAdminIdInput" placeholder="নতুন Admin ID"></div>
+        <div class="form-group">
+            <label>Created By (তৈরিকারকের নাম পরিবর্তন করুন)</label>
+            <input type="text" id="poweredByInput">
+        </div>
+
+        <div class="form-group">
+            <label>নতুন অ্যাডমিন পাসওয়ার্ড সেট করুন (ঐচ্ছিক)</label>
+            <input type="text" id="newPassInput" placeholder="নতুন পাসওয়ার্ড লিখুন">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="saveAdminData()">সংরক্ষণ করুন</button>
+            <button class="btn btn-secondary" onclick="backToEntry()">বাতিল করুন</button>
+        </div>
+    </div>
+
+    <div class="powered-footer" id="footerPoweredBy">Created by: প্রভাত টিম</div>
+</div>
+
+<div id="confirmDeleteModal" class="modal-overlay hidden">
+    <div class="modal-box">
+        <h3 style="color:#091E42;margin-bottom:8px;">আপনি কি পণ্যটি বাদ দিতে চান?</h3>
+        <p id="confirmDeleteProductName" style="font-weight:700;color:#DC2626;margin-bottom:16px;"></p>
+        <div style="display:flex;gap:10px;">
+            <button type="button" class="btn btn-primary" style="background:#DC2626;" onclick="confirmDeleteYes()">হ্যাঁ</button>
+            <button type="button" class="btn btn-secondary" onclick="confirmDeleteNo()">না</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DEFAULT_BANKS = [
+        "ইউসিবি (UCB)",
+        "ডাচ বাংলা (DUTCH BANGLA)",
+        "এমটিবি (MTB)",
+        "অফিস জমা (OFFICE JOMA)"
+    ];
+
+    const defaultProducts = Array.from({ length: 15 }, (_, i) => ({
+        name: `পণ্য ${toBn(i + 1)}`,
+        price: 0
+    }));
+
+    let products = JSON.parse(localStorage.getItem('provath_p_list')) || defaultProducts;
+    let bankOptions = (JSON.parse(localStorage.getItem('provath_banks')) || DEFAULT_BANKS)
+        .filter(b => !/KORIM\\s*DBBL|PERVEJ\\s*DBBL|DM\\s*DBBL|করিম ডিবিবিএল|পারভেজ ডিবিবিএল|ডিএম ডিবিবিএল/i.test(String(b)));
+    let adminPass = localStorage.getItem('provath_login_admin_pass_v2') || '1234';
+    let adminId = localStorage.getItem('provath_admin_id') || 'ADMIN';
+    let srUsers = JSON.parse(localStorage.getItem('provath_sr_users') || '[]');
+    let currentUser = null;
+    let poweredBy = localStorage.getItem('provath_powered') || 'প্রভাত টিম';
+    let seProfile = JSON.parse(localStorage.getItem('provath_profile')) || { name: '', photo: '', designation: '', designationReason: '' };
+    let salesHistory = JSON.parse(localStorage.getItem('provath_history_90d')) || [];
+
+    let visibleIndices = [];
+    let quantities = {};
+    let bankEntries = [{ bank: bankOptions[0], customBank: '', amount: '' }];
+    let pendingDeleteIdx = null;
+    let tempProfilePhoto = seProfile.photo || '';
+    let activeReportData = null;
+
+    function toBn(n) {
+        const d = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+        return n.toString().replace(/\d/g, x => d[x]);
+    }
+
+    function formatBnDate(dateStr) {
+        if (!dateStr) return '';
+        const months = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return toBn(dateStr);
+        const y = toBn(parts[0]);
+        const m = months[parseInt(parts[1], 10) - 1] || '';
+        const d = toBn(parseInt(parts[2], 10));
+        return `${d} ${m} ${y}`;
+    }
+
+    function getCurrentBnTimestamp() {
+        const now = new Date();
+        let h = now.getHours();
+        const min = now.getMinutes().toString().padStart(2, '0');
+        let period = 'সকাল';
+        if (h >= 12 && h < 16) period = 'দুপুর';
+        else if (h >= 16 && h < 18) period = 'বিকাল';
+        else if (h >= 18 && h < 20) period = 'সন্ধ্যা';
+        else if (h >= 20 || h < 5) period = 'রাত';
+        const h12 = h % 12 || 12;
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        return `ডাউনলোড সময়: ${period} ${toBn(h12)}:${toBn(min)} • ${formatBnDate(`${yyyy}-${mm}-${dd}`)}`;
+    }
+
+    function normalizePass(str) {
+        const bnMap = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
+        return str.trim().replace(/[০-৯]/g, c => bnMap[c]);
+    }
+
+    function cleanOldHistory() {
+        const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
+        salesHistory = salesHistory.filter(item => item.timestamp >= ninetyDaysAgo);
+        localStorage.setItem('provath_history_90d', JSON.stringify(salesHistory));
+    }
+
+    function loadUrlConfig() {
+        const params = new URLSearchParams(window.location.search);
+        const cfg = params.get('cfg');
+        if (cfg) {
+            try {
+                const parsed = JSON.parse(decodeURIComponent(atob(cfg)));
+                if (Array.isArray(parsed.p) && parsed.p.length > 0) products = parsed.p;
+                if (Array.isArray(parsed.b) && parsed.b.length > 0) bankOptions = parsed.b;
+                if (parsed.w) poweredBy = parsed.w;
+            } catch (e) {}
+        }
+    }
+
+    function initApp() {
+        cleanOldHistory();
+        const today = new Date();
+        document.getElementById('salesDate').valueAsDate = today;
+        const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+        document.getElementById('salesDay').value = days[today.getDay()];
+        document.getElementById('salesDate').addEventListener('change', function () {
+            if (!this.value) return;
+            const selected = new Date(this.value + 'T00:00:00');
+            document.getElementById('salesDay').value = days[selected.getDay()];
+        });
+
+        if (seProfile.name) {
+            document.getElementById('seName').value = seProfile.name;
+        }
+        updateHeaderAvatar();
+        document.getElementById('footerPoweredBy').innerText = `Created by: ${poweredBy}`;
+
+        visibleIndices = products.slice(0, 7).map((_, idx) => idx);
+        bankEntries = [{ bank: bankOptions[0], customBank: '', amount: '' }];
+        renderProducts();
+        renderBanks();
+
+        const savedSession = localStorage.getItem('provath_remembered_session');
+        if (savedSession) {
+            try {
+                const s = JSON.parse(savedSession);
+                if (s && s.role === 'admin') currentUser = { role: 'admin', id: adminId };
+                else if (s && s.role === 'sr') {
+                    const u = srUsers.find(x => x.id === s.id && x.active !== false);
+                    if (u) currentUser = { role: 'sr', id: u.id };
+                }
+            } catch (e) {}
+        }
+        if (currentUser) enterApp();
+        else {
+            document.querySelectorAll('[onclick*="openHistoryView"], [onclick*="openProfileView"], [onclick*="openAdminAuth"]').forEach(el => el.classList.add('hidden'));
+            switchView('loginView');
+        }
+    }
+
+    function updateHeaderAvatar() {
+        const img = document.getElementById('topAvatarImg');
+        if (seProfile.photo) {
+            img.src = seProfile.photo;
+            img.classList.remove('hidden');
+        } else {
+            img.classList.add('hidden');
+        }
+    }
+
+    function renderProducts() {
+        const tbody = document.getElementById('productBody');
+        tbody.innerHTML = '';
+
+        visibleIndices.forEach(idx => {
+            const p = products[idx];
+            if (!p) return;
+            const qVal = quantities[idx] !== undefined ? quantities[idx] : '';
+            const amt = (parseFloat(qVal) || 0) * (parseFloat(p.price) || 0);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${p.name} <div style="font-size:11px;color:#0052CC;">দর: ৳${toBn(p.price)}</div></td>
+                <td><input type="number" step="any" class="qty-input" min="0" value="${qVal}" placeholder="০" oninput="updateQty(${idx}, this.value)"></td>
+                <td id="amt-${idx}">${toBn(amt.toFixed(2))}</td>
+                <td><button type="button" class="btn-del-row" onclick="askDeleteProduct(${idx})">✕</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        updateHiddenProductsDropdown();
+        recalc();
+    }
+
+    function updateHiddenProductsDropdown() {
+        const hidden = products
+            .map((p, idx) => ({ p, idx }))
+            .filter(item => !visibleIndices.includes(item.idx));
+
+        const box = document.getElementById('hiddenProductsBox');
+        const sel = document.getElementById('hiddenProductsSelect');
+        if (hidden.length === 0) {
+            box.classList.add('hidden');
+            return;
+        }
+        box.classList.remove('hidden');
+        sel.innerHTML = hidden.map(item => `<option value="${item.idx}">${item.p.name} (৳${toBn(item.p.price)})</option>`).join('');
+    }
+
+    function restoreSelectedProduct() {
+        const sel = document.getElementById('hiddenProductsSelect');
+        const idx = parseInt(sel.value, 10);
+        if (!isNaN(idx) && !visibleIndices.includes(idx)) {
+            visibleIndices.push(idx);
+            renderProducts();
+        }
+    }
+
+    function askDeleteProduct(idx) {
+        pendingDeleteIdx = idx;
+        document.getElementById('confirmDeleteProductName').innerText = products[idx].name;
+        document.getElementById('confirmDeleteModal').classList.remove('hidden');
+    }
+
+    function confirmDeleteYes() {
+        if (pendingDeleteIdx !== null) {
+            visibleIndices = visibleIndices.filter(i => i !== pendingDeleteIdx);
+            delete quantities[pendingDeleteIdx];
+            pendingDeleteIdx = null;
+            renderProducts();
+        }
+        document.getElementById('confirmDeleteModal').classList.add('hidden');
+    }
+
+    function confirmDeleteNo() {
+        pendingDeleteIdx = null;
+        document.getElementById('confirmDeleteModal').classList.add('hidden');
+    }
+
+    function updateQty(idx, val) {
+        quantities[idx] = val;
+        const q = parseFloat(val) || 0;
+        const amt = q * (parseFloat(products[idx].price) || 0);
+        const cell = document.getElementById(`amt-${idx}`);
+        if (cell) cell.innerText = toBn(amt.toFixed(2));
+        recalc();
+    }
+
+    function renderBanks() {
+        const container = document.getElementById('bankRowsContainer');
+        container.innerHTML = '';
+        document.getElementById('bankCountBadge').innerText = `মোট ব্যাংক: ${toBn(bankEntries.length)}`;
+
+        bankEntries.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'bank-card-item';
+            const opts = bankOptions.map(b => `<option value="${b}" ${item.bank === b ? 'selected' : ''}>${b}</option>`).join('');
+            const isCustom = item.bank === '__OTHER__';
+
+            card.innerHTML = `
+                <div class="bank-row">
+                    <div>
+                        <label style="font-size:11px;">ব্যাংক / অফিস জমা</label>
+                        <select onchange="updateBank(${idx}, 'bank', this.value)">
+                            ${opts}
+                            <option value="__OTHER__" ${isCustom ? 'selected' : ''}>অন্যান্য ব্যাংক (নিচে CAPITAL অক্ষরে লিখুন)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:11px;">জমা টাকা (৳)</label>
+                        <input type="number" step="any" min="0" value="${item.amount}" placeholder="০" oninput="updateBank(${idx}, 'amount', this.value)">
+                    </div>
+                    <button type="button" class="btn-remove" onclick="removeBank(${idx})" ${bankEntries.length === 1 ? 'disabled style="opacity:0.4"' : ''}>✕</button>
+                </div>
+                ${isCustom ? `
+                <div style="margin-top:6px;">
+                    <input type="text" value="${item.customBank}" placeholder="ব্যাংকের নাম লিখুন (CAPITAL LETTERS)" style="text-transform:uppercase;border-color:#0077FF;" oninput="updateBank(${idx}, 'customBank', this.value.toUpperCase())">
+                </div>` : ''}
+            `;
+            container.appendChild(card);
+        });
+        recalc();
+    }
+
+    function addBankRow() {
+        bankEntries.push({ bank: bankOptions[0], customBank: '', amount: '' });
+        renderBanks();
+    }
+
+    function removeBank(idx) {
+        if (bankEntries.length > 1) {
+            bankEntries.splice(idx, 1);
+            renderBanks();
+        }
+    }
+
+    function updateBank(idx, field, val) {
+        bankEntries[idx][field] = val;
+        if (field === 'bank') renderBanks();
+        else recalc();
+    }
+
+    function recalc() {
+        let totalSales = 0;
+        visibleIndices.forEach(idx => {
+            const q = parseFloat(quantities[idx]) || 0;
+            totalSales += q * (parseFloat(products[idx].price) || 0);
+        });
+
+        let totalBank = 0;
+        bankEntries.forEach(b => {
+            totalBank += parseFloat(b.amount) || 0;
+        });
+
+        const onHand = totalSales - totalBank;
+        document.getElementById('totalSalesTxt').innerText = `${toBn(totalSales.toFixed(2))} ৳`;
+        document.getElementById('totalBankTxt').innerText = `${toBn(totalBank.toFixed(2))} ৳`;
+        document.getElementById('onHandTxt').innerText = `${toBn(onHand.toFixed(2))} ৳`;
+    }
+
+    function switchView(id) {
+        ['loginView', 'entryView', 'previewView', 'profileView', 'historyView', 'adminAuthView', 'adminEditorView'].forEach(v => {
+            document.getElementById(v).classList.add('hidden');
+        });
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function buildCurrentReport() {
+        const dateVal = document.getElementById('salesDate').value;
+        const dayVal = document.getElementById('salesDay').value;
+        const seVal = seProfile.name || ''; 
+        const designation = (seProfile.designation || '').toUpperCase();
+        const designationReason = designation === 'DS/SUP' ? (seProfile.designationReason || '') : '';
+
+        const items = [];
+        let totalSales = 0;
+        visibleIndices.forEach(idx => {
+            const q = parseFloat(quantities[idx]) || 0;
+            const amt = q * (parseFloat(products[idx].price) || 0);
+            totalSales += amt;
+            items.push({ name: products[idx].name, qty: q, amount: amt });
+        });
+
+        const banks = [];
+        let totalBank = 0;
+        bankEntries.forEach(b => {
+            const amt = parseFloat(b.amount) || 0;
+            const bName = b.bank === '__OTHER__' ? (b.customBank.trim().toUpperCase() || 'OTHER BANK') : b.bank;
+            totalBank += amt;
+            banks.push({ name: bName, amount: amt });
+        });
+
+        return {
+            id: dateVal,
+            date: dateVal,
+            monthKey: dateVal.slice(0, 7),
+            day: dayVal,
+            seName: seVal,
+            designation,
+            designationReason,
+            items,
+            totalSales,
+            banks,
+            totalBank,
+            onHand: totalSales - totalBank,
+            timestamp: Date.now()
+        };
+    }
+
+    function saveReportToHistory(report) {
+        const existingIdx = salesHistory.findIndex(r => r.date === report.date && r.seName === report.seName);
+        if (existingIdx >= 0) salesHistory[existingIdx] = report;
+        else salesHistory.unshift(report);
+        cleanOldHistory();
+    }
+
+    function getNameColor(name) {
+        const colors = [
+            { background: 'linear-gradient(90deg,#DBEAFE,#93C5FD)', canvas: '#BFDBFE', text: '#1E3A8A' },
+            { background: 'linear-gradient(90deg,#DCFCE7,#86EFAC)', canvas: '#BBF7D0', text: '#14532D' },
+            { background: 'linear-gradient(90deg,#FCE7F3,#F9A8D4)', canvas: '#FBCFE8', text: '#831843' },
+            { background: 'linear-gradient(90deg,#FEF3C7,#FCD34D)', canvas: '#FDE68A', text: '#78350F' },
+            { background: 'linear-gradient(90deg,#EDE9FE,#C4B5FD)', canvas: '#DDD6FE', text: '#4C1D95' },
+            { background: 'linear-gradient(90deg,#CCFBF1,#5EEAD4)', canvas: '#99F6E4', text: '#134E4A' },
+            { background: 'linear-gradient(90deg,#FFE4E6,#FDA4AF)', canvas: '#FECDD3', text: '#881337' }
+        ];
+        let hash = 0;
+        for (let i = 0; i < String(name || '').length; i++) hash = (hash * 31 + String(name).charCodeAt(i)) >>> 0;
+        return colors[hash % colors.length];
+    }
+
+    function renderPreviewCard(report) {
+        activeReportData = report;
+        document.getElementById('prevDateInfo').innerText = `${formatBnDate(report.date)}  •  বার: ${report.day}`;
+        const nameBox = document.getElementById('prevSeInfo');
+        nameBox.innerText = `নাম: ${report.seName}${report.designation === 'DS/SUP' ? '  |  এন্ট্রি দেওয়ার কারণ: ' + (report.designationReason || '') : ''}`;
+        nameBox.style.background = getNameColor(report.seName).background;
+        nameBox.style.color = getNameColor(report.seName).text;
+
+        const av = document.getElementById('prevAvatarImg');
+        if (seProfile.photo) {
+            av.src = seProfile.photo;
+            av.classList.remove('hidden');
+        } else {
+            av.classList.add('hidden');
+        }
+
+        const tbody = document.getElementById('prevProductBody');
+        tbody.innerHTML = report.items.map(it => `
+            <tr>
+                <td>${it.name}</td>
+                <td>${toBn(it.qty)}</td>
+                <td>${toBn(it.amount.toFixed(2))}</td>
+            </tr>
+        `).join('');
+
+        const bankHtml = report.banks.map(b => `<div><strong>${b.name}:</strong> ${toBn(b.amount.toFixed(2))} ৳</div>`).join('');
+        document.getElementById('prevFooterInfo').innerHTML = `
+            <div><strong>মোট প্রোডাক্ট বিক্রয় মূল্য:</strong> ${toBn(report.totalSales.toFixed(2))} ৳</div>
+            ${bankHtml}
+            <div><strong>সর্বমোট ব্যাংক ও অফিস জমা:</strong> ${toBn(report.totalBank.toFixed(2))} ৳</div>
+            <div style="color:#FACC15;font-size:17px;font-weight:700;margin-top:4px;">হাতে নগদ অবশিষ্ট টাকা: ${toBn(report.onHand.toFixed(2))} ৳</div>
+        `;
+        document.getElementById('prevDownloadTime').innerText = getCurrentBnTimestamp();
+        document.getElementById('prevPoweredTag').innerText = `Created by: ${poweredBy}`;
+    }
+
+    function ensureProfileComplete() {
+        if (!seProfile.name || !seProfile.photo || !seProfile.designation || (seProfile.designation === 'DS/SUP' && !seProfile.designationReason)) {
+            alert('রিপোর্ট করার আগে প্রোফাইলে নাম, DESIGNATION, প্রয়োজন হলে DS/SUP-এর কারণ এবং ছবি সংরক্ষণ করুন।');
+            openProfileView();
+            return false;
+        }
+        return true;
+    }
+
+    function openPreview() {
+        if (!ensureProfileComplete()) return;
+        const report = buildCurrentReport();
+        saveReportToHistory(report);
+        renderPreviewCard(report);
+        switchView('previewView');
+    }
+
+    function backToEntry() {
+        switchView('entryView');
+    }
+
+    function generateHDImage(title, subLine, seTitle, rows, footerLines, fileName) {
+        const scale = 3;
+        const W = 620;
+        const rowH = 38;
+        const canvas = document.createElement('canvas');
+        canvas.width = W * scale;
+        canvas.height = 1000 * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale);
+
+        // নাম ও DS/SUP-এর কারণ এক লাইনে না ধরলে স্বয়ংক্রিয়ভাবে পরের লাইনে যাবে।
+        const wrapCanvasText = (text, maxWidth, font) => {
+            ctx.font = font;
+            const words = String(text || '').split(/\s+/).filter(Boolean);
+            const lines = [];
+            let line = '';
+            words.forEach(word => {
+                const test = line ? line + ' ' + word : word;
+                if (ctx.measureText(test).width <= maxWidth) {
+                    line = test;
+                } else {
+                    if (line) lines.push(line);
+                    // খুব লম্বা শব্দও যেন বক্সের বাইরে না যায়
+                    let part = '';
+                    for (const ch of word) {
+                        if (ctx.measureText(part + ch).width > maxWidth && part) {
+                            lines.push(part);
+                            part = ch;
+                        } else part += ch;
+                    }
+                    line = part;
+                }
+            });
+            if (line) lines.push(line);
+            return lines.length ? lines : [''];
+        };
+        const nameFont = 'bold 20px sans-serif';
+        const nameLines = wrapCanvasText(seTitle, W - 48, nameFont);
+        const nameLineH = 27;
+        const nameBoxH = Math.max(46, 18 + nameLines.length * nameLineH);
+        const tableTop = 105 + nameBoxH + 11;
+        const H = tableTop + 38 + (rows.length * rowH) + 14 + (footerLines.length * 32) + 20 + 42;
+        canvas.height = H * scale;
+        ctx.scale(scale, scale);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, W, H);
+
+        const grad = ctx.createLinearGradient(0, 0, W, 0);
+        grad.addColorStop(0, '#091E42');
+        grad.addColorStop(1, '#0052CC');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, 105);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 28px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(title, 26, 44);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.18)';
+        ctx.fillRect(24, 58, 360, 32);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '600 17px sans-serif';
+        ctx.fillText(subLine, 34, 80);
+
+        const drawRest = () => {
+            const nameColor = getNameColor((seTitle.match(/নাম:\s*([^|]+)/) || [])[1] || seProfile.name);
+            ctx.fillStyle = nameColor.canvas;
+            ctx.fillRect(0, 105, W, nameBoxH);
+            ctx.fillStyle = nameColor.text;
+            ctx.font = nameFont;
+            ctx.textAlign = 'center';
+            nameLines.forEach((line, index) => {
+                ctx.fillText(line, W / 2, 105 + (nameBoxH - (nameLines.length * nameLineH)) / 2 + 21 + index * nameLineH);
+            });
+
+            let y = tableTop;
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(20, y, W - 40, 38);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 17px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('পণ্যের নাম', 34, y + 25);
+            ctx.textAlign = 'center';
+            ctx.fillText('পরিমাণ', 385, y + 25);
+            ctx.textAlign = 'right';
+            ctx.fillText('টাকা (৳)', W - 34, y + 25);
+
+            y += 38;
+            rows.forEach((r, idx) => {
+                ctx.fillStyle = idx % 2 === 0 ? '#FFFFFF' : '#F0F9FF';
+                ctx.fillRect(20, y, W - 40, rowH);
+                ctx.strokeStyle = '#CBD5E1';
+                ctx.strokeRect(20, y, W - 40, rowH);
+
+                ctx.fillStyle = '#0F172A';
+                ctx.font = 'bold 17px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(r.name, 34, y + 25);
+                ctx.textAlign = 'center';
+                ctx.fillText(toBn(r.qty), 385, y + 25);
+                ctx.textAlign = 'right';
+                ctx.fillText(toBn(r.amount.toFixed(2)), W - 34, y + 25);
+                y += rowH;
+            });
+
+            y += 14;
+            const footH = (footerLines.length * 32) + 20;
+            const fGrad = ctx.createLinearGradient(20, y, W - 20, y + footH);
+            fGrad.addColorStop(0, '#091E42');
+            fGrad.addColorStop(1, '#1E3A8A');
+            ctx.fillStyle = fGrad;
+            ctx.fillRect(20, y, W - 40, footH);
+
+            let fy = y + 30;
+            footerLines.forEach(line => {
+                ctx.fillStyle = line.highlight ? '#FACC15' : '#FFFFFF';
+                ctx.font = line.highlight ? 'bold 21px sans-serif' : 'bold 17px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(line.text, 36, fy);
+                fy += 32;
+            });
+
+            const timeStr = getCurrentBnTimestamp();
+            ctx.fillStyle = '#475569';
+            ctx.font = '600 13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(timeStr, 22, H - 14);
+
+            ctx.textAlign = 'right';
+            ctx.fillText(`Created by: ${poweredBy}`, W - 22, H - 14);
+
+            const link = document.createElement('a');
+            link.download = fileName;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => alert('ডাউনলোড সম্পন্ন হয়েছে। অফিসে জমা দিন।'), 250);
+        };
+
+        if (seProfile.photo) {
+            const img = new Image();
+            img.onload = () => {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(W - 56, 52, 34, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(img, W - 90, 18, 68, 68);
+                ctx.restore();
+
+                ctx.strokeStyle = '#F59E0B';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(W - 56, 52, 34, 0, Math.PI * 2);
+                ctx.stroke();
+                drawRest();
+            };
+            img.onerror = drawRest;
+            img.src = seProfile.photo;
+        } else {
+            drawRest();
+        }
+    }
+
+    function downloadCurrentHD() {
+        if (!ensureProfileComplete()) return;
+        const rep = activeReportData || buildCurrentReport();
+        saveReportToHistory(rep);
+        const footerLines = [
+            { text: `মোট প্রোডাক্ট বিক্রয় মূল্য: ${toBn(rep.totalSales.toFixed(2))} ৳` },
+            ...rep.banks.map(b => ({ text: `${b.name}: ${toBn(b.amount.toFixed(2))} ৳` })),
+            { text: `সর্বমোট ব্যাংক ও অফিস জমা: ${toBn(rep.totalBank.toFixed(2))} ৳` },
+            { text: `হাতে নগদ অবশিষ্ট টাকা: ${toBn(rep.onHand.toFixed(2))} ৳`, highlight: true }
+        ];
+        generateHDImage(
+            'প্রভাত এসই সামারি',
+            `${formatBnDate(rep.date)}  •  বার: ${rep.day}`,
+            `নাম: ${rep.seName}${rep.designation === 'DS/SUP' ? ' | এন্ট্রি দেওয়ার কারণ: ' + (rep.designationReason || '') : ''}`,
+            rep.items,
+            footerLines,
+            `প্রভাত-সামারি-${rep.date}.png`
+        );
+    }
+
+    function openProfileView() {
+        if (!currentUser) { switchView('loginView'); return; }
+        document.getElementById('profNameInput').value = seProfile.name || '';
+        document.getElementById('profDesignationInput').value = (seProfile.designation || '').toUpperCase();
+        document.getElementById('designationReasonInput').value = seProfile.designationReason || '';
+        toggleDesignationReason();
+        tempProfilePhoto = seProfile.photo || '';
+        if (tempProfilePhoto) {
+            document.getElementById('profPreviewImg').src = tempProfilePhoto;
+            document.getElementById('profPreviewWrap').classList.remove('hidden');
+        } else {
+            document.getElementById('profPreviewWrap').classList.add('hidden');
+        }
+        switchView('profileView');
+    }
+
+    function handlePhotoUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const img = new Image();
+            img.onload = () => {
+                const c = document.createElement('canvas');
+                c.width = 200;
+                c.height = 200;
+                const ctx = c.getContext('2d');
+                const minSide = Math.min(img.width, img.height);
+                const sx = (img.width - minSide) / 2;
+                const sy = (img.height - minSide) / 2;
+                ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, 200, 200);
+                tempProfilePhoto = c.toDataURL('image/jpeg', 0.85);
+                document.getElementById('profPreviewImg').src = tempProfilePhoto;
+                document.getElementById('profPreviewWrap').classList.remove('hidden');
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeProfilePhoto() {
+        tempProfilePhoto = '';
+        document.getElementById('profPreviewWrap').classList.add('hidden');
+    }
+
+    function toggleDesignationReason() {
+        const designation = document.getElementById('profDesignationInput').value.trim().toUpperCase();
+        const wrap = document.getElementById('designationReasonWrap');
+        const input = document.getElementById('designationReasonInput');
+        const show = designation === 'DS/SUP';
+        wrap.classList.toggle('hidden', !show);
+        input.required = show;
+        if (!show) input.value = '';
+    }
+
+    function saveProfile() {
+        const nm = document.getElementById('profNameInput').value.trim();
+        if (!nm) {
+            alert('প্রোফাইলের নাম লিখুন। নাম বাধ্যতামূলক।');
+            document.getElementById('profNameInput').focus();
+            return;
+        }
+        const designation = document.getElementById('profDesignationInput').value.trim().toUpperCase();
+        const designationReason = document.getElementById('designationReasonInput').value.trim();
+        if (!designation) {
+            alert('DESIGNATION নির্বাচন করুন। এটি বাধ্যতামূলক।');
+            document.getElementById('profDesignationInput').focus();
+            return;
+        }
+        if (designation === 'DS/SUP' && !designationReason) {
+            alert('DS/SUP নির্বাচন করলে এন্ট্রি দেওয়ার কারণ লিখতে হবে।');
+            document.getElementById('designationReasonInput').focus();
+            return;
+        }
+        if (!tempProfilePhoto) {
+            alert('প্রোফাইলের ছবি নির্বাচন করুন। ছবি বাধ্যতামূলক।');
+            document.getElementById('profPhotoInput').focus();
+            return;
+        }
+        seProfile = { name: nm, photo: tempProfilePhoto, designation, designationReason: designation === 'DS/SUP' ? designationReason : '' };
+        localStorage.setItem('provath_profile', JSON.stringify(seProfile));
+        if (nm) document.getElementById('seName').value = nm;
+        updateHeaderAvatar();
+        backToEntry();
+    }
+
+    function openHistoryView() {
+        if (!currentUser) { switchView('loginView'); return; }
+        cleanOldHistory();
+        const monthsSet = new Set();
+        const currentMonth = document.getElementById('salesDate').value.slice(0, 7);
+        if (currentMonth) monthsSet.add(currentMonth);
+        salesHistory.forEach(r => { if (r.monthKey) monthsSet.add(r.monthKey); });
+
+        const monthNames = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+        const sel = document.getElementById('monthSelect');
+        sel.innerHTML = Array.from(monthsSet).sort().reverse().map(mKey => {
+            const [y, m] = mKey.split('-');
+            return `<option value="${mKey}">${monthNames[parseInt(m, 10) - 1]} ${toBn(y)}</option>`;
+        }).join('');
+
+        renderMonthlySummary();
+        renderDailyHistoryList();
+        switchView('historyView');
+    }
+
+    function getMonthlyAggregated(mKey) {
+        const records = salesHistory.filter(r => r.monthKey === mKey);
+        const prodMap = {};
+        const bankMap = {};
+        let totalSales = 0;
+        let totalBank = 0;
+
+        records.forEach(r => {
+            totalSales += r.totalSales;
+            totalBank += r.totalBank;
+            r.items.forEach(it => {
+                if (!prodMap[it.name]) prodMap[it.name] = { name: it.name, qty: 0, amount: 0 };
+                prodMap[it.name].qty += it.qty;
+                prodMap[it.name].amount += it.amount;
+            });
+            r.banks.forEach(b => {
+                if (!bankMap[b.name]) bankMap[b.name] = 0;
+                bankMap[b.name] += b.amount;
+            });
+        });
+
+        return {
+            daysCount: records.length,
+            items: Object.values(prodMap),
+            banks: Object.entries(bankMap).map(([name, amount]) => ({ name, amount })),
+            totalSales,
+            totalBank,
+            onHand: totalSales - totalBank
+        };
+    }
+
+    function renderMonthlySummary() {
+        const mKey = document.getElementById('monthSelect').value;
+        const agg = getMonthlyAggregated(mKey);
+        const box = document.getElementById('monthlySummaryBox');
+
+        if (agg.daysCount === 0) {
+            box.innerHTML = `<p style="color:#64748B;">এই মাসের কোনো বিক্রয় হিসাব এখনো সংরক্ষিত নেই।</p>`;
+            return;
+        }
+
+        const prodLines = agg.items.map(i => `<div style="display:flex;justify-content:space-between;border-bottom:1px dashed #E2E8F0;padding:3px 0;"><span>${i.name} (${toBn(i.qty)})</span><span>${toBn(i.amount.toFixed(2))} ৳</span></div>`).join('');
+        box.innerHTML = `
+            <div style="font-weight:700;color:#091E42;margin-bottom:6px;">মোট এন্ট্রি দিন: ${toBn(agg.daysCount)} দিন</div>
+            ${prodLines}
+            <div style="margin-top:8px;font-weight:700;color:#0052CC;">সারা মাসের মোট বিক্রয়: ${toBn(agg.totalSales.toFixed(2))} ৳</div>
+            <div style="font-weight:700;">সারা মাসের মোট ব্যাংক জমা: ${toBn(agg.totalBank.toFixed(2))} ৳</div>
+            <div style="font-weight:700;color:#059669;">সারা মাসের হাতে নগদ: ${toBn(agg.onHand.toFixed(2))} ৳</div>
+        `;
+    }
+
+    function downloadMonthlyHD() {
+        if (!ensureProfileComplete()) return;
+        const mKey = document.getElementById('monthSelect').value;
+        const agg = getMonthlyAggregated(mKey);
+        if (agg.daysCount === 0) {
+            alert('এই মাসের কোনো ডাটা নেই!');
+            return;
+        }
+        const monthText = document.getElementById('monthSelect').selectedOptions[0].text;
+        const seTitle = `নাম: ${seProfile.name || document.getElementById('seName').value || 'সকল হিসাব'}`;
+        const footerLines = [
+            { text: `মোট বিক্রয় দিন: ${toBn(agg.daysCount)} দিন` },
+            { text: `মাসিক মোট প্রোডাক্ট বিক্রয়: ${toBn(agg.totalSales.toFixed(2))} ৳` },
+            ...agg.banks.map(b => ({ text: `${b.name}: ${toBn(b.amount.toFixed(2))} ৳` })),
+            { text: `মাসিক সর্বমোট ব্যাংক জমা: ${toBn(agg.totalBank.toFixed(2))} ৳` },
+            { text: `মাসিক হাতে নগদ অবশিষ্ট: ${toBn(agg.onHand.toFixed(2))} ৳`, highlight: true }
+        ];
+        generateHDImage(
+            'মাসিক বিক্রয় সামারি',
+            `মাস: ${monthText}`,
+            seTitle,
+            agg.items,
+            footerLines,
+            `মাসিক-সামারি-${mKey}.png`
+        );
+    }
+
+    function renderDailyHistoryList() {
+        const list = document.getElementById('dailyHistoryList');
+        if (salesHistory.length === 0) {
+            list.innerHTML = `<p style="font-size:13px;color:#64748B;">কোনো সংরক্ষিত হিসাব নেই।</p>`;
+            return;
+        }
+        list.innerHTML = salesHistory.map((r, i) => `
+            <div class="history-item">
+                <div>
+                    <div style="font-weight:700;font-size:14px;">${formatBnDate(r.date)} (${r.day})</div>
+                    <div style="font-size:12px;color:#475569;">${r.seName} • বিক্রয়: ${toBn(r.totalSales.toFixed(2))} ৳</div>
+                </div>
+                <button type="button" class="btn-restore" onclick="viewSavedReport(${i})">দেখুন / ডাউনলোড</button>
+            </div>
+        `).join('');
+    }
+
+    function viewSavedReport(index) {
+        const rep = salesHistory[index];
+        if (!rep) return;
+        renderPreviewCard(rep);
+        switchView('previewView');
+    }
+
+    function loginUser() {
+        const id = (document.getElementById('loginUserId').value || '').trim();
+        const pass = normalizePass(document.getElementById('loginPassword').value || '');
+        const msg = document.getElementById('loginMessage');
+        if (id.toUpperCase() === adminId.toUpperCase() && pass === normalizePass(adminPass)) {
+            currentUser = { role: 'admin', id: adminId };
+        } else {
+            const user = srUsers.find(u => u.id.toUpperCase() === id.toUpperCase() && normalizePass(u.pass) === pass);
+            if (!user) { msg.textContent = 'ভুল User ID অথবা Password!'; return; }
+            if (user.active === false) { msg.textContent = 'আপনার অ্যাকাউন্টটি Admin বন্ধ রেখেছেন।'; return; }
+            currentUser = { role: 'sr', id: user.id };
+        }
+        if (document.getElementById('rememberLogin').checked)
+            localStorage.setItem('provath_remembered_session', JSON.stringify(currentUser));
+        else localStorage.removeItem('provath_remembered_session');
+        msg.textContent = '';
+        enterApp();
+    }
+
+    function enterApp() {
+        document.getElementById('logoutBtn').classList.remove('hidden');
+        document.querySelectorAll('[onclick*="openHistoryView"], [onclick*="openProfileView"]').forEach(el => el.classList.remove('hidden'));
+        const adminButton = document.getElementById('openAdminButton');
+        if (adminButton) adminButton.classList.toggle('hidden', !currentUser || currentUser.role !== 'admin');
+        switchView('entryView');
+    }
+
+    function logoutUser() {
+        currentUser = null;
+        localStorage.removeItem('provath_remembered_session');
+        document.getElementById('logoutBtn').classList.add('hidden');
+        document.getElementById('loginPassword').value = '';
+        switchView('loginView');
+    }
+
+    function openAdminAuth() {
+        if (!currentUser || currentUser.role !== 'admin') { alert('শুধু Admin এই প্যানেলে প্রবেশ করতে পারবেন।'); return; }
+        document.getElementById('adminIdInput').value = adminId;
+        document.getElementById('adminPassInput').value = '';
+        switchView('adminAuthView');
+    }
+
+    function checkAdminPassAuto() {}
+
+    function verifyAdminPass() {
+        const id = (document.getElementById('adminIdInput').value || '').trim();
+        if (id.toUpperCase() === adminId.toUpperCase() &&
+            normalizePass(document.getElementById('adminPassInput').value) === normalizePass(adminPass)) openAdminEditor();
+        else alert('ভুল Admin ID অথবা Password!');
+    }
+
+    let adminTempProducts = [];
+    let adminTempBanks = [];
+
+    function openAdminEditor() {
+        adminTempProducts = JSON.parse(JSON.stringify(products));
+        adminTempBanks = [...bankOptions];
+        renderAdminEditorLists();
+        document.getElementById('poweredByInput').value = poweredBy;
+        document.getElementById('newPassInput').value = '';
+        document.getElementById('newAdminIdInput').value = '';
+        renderSrUsers();
+        switchView('adminEditorView');
+    }
+
+    function renderAdminEditorLists() {
+        const pBox = document.getElementById('adminProductsContainer');
+        pBox.innerHTML = adminTempProducts.map((p, i) => `
+            <div class="admin-row">
+                <input type="text" value="${p.name}" placeholder="পণ্যের নাম" onchange="adminTempProducts[${i}].name=this.value">
+                <input type="number" step="any" value="${p.price}" placeholder="দাম (৳)" onchange="adminTempProducts[${i}].price=parseFloat(this.value)||0">
+                <button type="button" class="btn-remove" onclick="removeAdminProduct(${i})">✕</button>
+            </div>
+        `).join('');
+
+        const bBox = document.getElementById('adminBanksContainer');
+        bBox.innerHTML = adminTempBanks.map((b, i) => `
+            <div style="display:grid;grid-template-columns:1fr 34px;gap:6px;margin-bottom:6px;">
+                <input type="text" value="${b}" style="text-transform:uppercase;" onchange="adminTempBanks[${i}]=this.value.toUpperCase()">
+                <button type="button" class="btn-remove" onclick="removeAdminBank(${i})">✕</button>
+            </div>
+        `).join('');
+    }
+
+    function addAdminProductRow() {
+        adminTempProducts.push({ name: `পণ্য ${toBn(adminTempProducts.length + 1)}`, price: 0 });
+        renderAdminEditorLists();
+    }
+
+    function removeAdminProduct(i) {
+        if (adminTempProducts.length > 1) {
+            adminTempProducts.splice(i, 1);
+            renderAdminEditorLists();
+        }
+    }
+
+    function addAdminBankRow() {
+        adminTempBanks.push('NEW BANK');
+        renderAdminEditorLists();
+    }
+
+    function removeAdminBank(i) {
+        if (adminTempBanks.length > 1) {
+            adminTempBanks.splice(i, 1);
+            renderAdminEditorLists();
+        }
+    }
+
+    function persistSrUsers() { localStorage.setItem('provath_sr_users', JSON.stringify(srUsers)); }
+
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+
+    function renderSrUsers() {
+        const box = document.getElementById('srUsersContainer');
+        if (!box) return;
+        if (!srUsers.length) { box.innerHTML = '<p style="font-size:13px;color:#64748B;">এখনো কোনো SR User যোগ করা হয়নি।</p>'; return; }
+        box.innerHTML = srUsers.map((u, i) => `
+            <div style="border:1px solid #CBD5E1;border-radius:9px;padding:8px;margin-bottom:7px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <input type="text" value="${escapeHtml(u.id)}" aria-label="SR User ID" onchange="updateSrUser(${i},'id',this.value)">
+                    <input type="text" value="${escapeHtml(u.pass)}" aria-label="SR Password" onchange="updateSrUser(${i},'pass',this.value)">
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;">
+                    <span style="font-size:12px;font-weight:700;color:${u.active === false ? '#DC2626' : '#15803D'};">${u.active === false ? 'Disabled' : 'Active'}</span>
+                    <div style="display:flex;gap:5px;">
+                        <button type="button" class="btn-restore" onclick="toggleSrUser(${i})">${u.active === false ? 'Enable' : 'Disable'}</button>
+                        <button type="button" class="btn-remove" onclick="deleteSrUser(${i})">✕</button>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+
+    function addSrUser() {
+        const idEl = document.getElementById('newSrUserId'), passEl = document.getElementById('newSrUserPass');
+        const id = (idEl.value || '').trim(), pass = (passEl.value || '').trim();
+        if (!id || !pass) return alert('SR User ID ও Password দুটোই লিখুন।');
+        if (id.toUpperCase() === adminId.toUpperCase()) return alert('এই ID Admin-এর জন্য সংরক্ষিত।');
+        if (srUsers.some(u => u.id.toUpperCase() === id.toUpperCase())) return alert('এই User ID আগে থেকেই আছে।');
+        srUsers.push({id, pass, active:true}); persistSrUsers(); idEl.value=''; passEl.value=''; renderSrUsers();
+        alert('SR User সফলভাবে যোগ হয়েছে।');
+    }
+
+    function updateSrUser(i, field, value) {
+        if (!srUsers[i]) return;
+        const v = String(value || '').trim();
+        if (!v) return renderSrUsers();
+        if (field === 'id' && srUsers.some((u,j) => j !== i && u.id.toUpperCase() === v.toUpperCase())) {
+            alert('এই User ID আগে থেকেই আছে।'); return renderSrUsers();
+        }
+        srUsers[i][field] = v; persistSrUsers(); renderSrUsers();
+    }
+
+    function toggleSrUser(i) {
+        if (!srUsers[i]) return;
+        srUsers[i].active = srUsers[i].active === false; persistSrUsers(); renderSrUsers();
+    }
+
+    function deleteSrUser(i) {
+        if (!srUsers[i] || !confirm('এই SR User মুছে ফেলবেন?')) return;
+        srUsers.splice(i,1); persistSrUsers(); renderSrUsers();
+    }
+
+    function saveAdminData() {
+        products = adminTempProducts.map((p, i) => ({
+            name: p.name.trim() || `পণ্য ${toBn(i + 1)}`,
+            price: parseFloat(p.price) || 0
+        }));
+        localStorage.setItem('provath_p_list', JSON.stringify(products));
+
+        bankOptions = adminTempBanks.map(b => b.trim().toUpperCase()).filter(Boolean);
+        if (bankOptions.length === 0) bankOptions = [...DEFAULT_BANKS];
+        localStorage.setItem('provath_banks', JSON.stringify(bankOptions));
+
+        const pb = document.getElementById('poweredByInput').value.trim();
+        if (pb) {
+            poweredBy = pb;
+            localStorage.setItem('provath_powered', poweredBy);
+            document.getElementById('footerPoweredBy').innerText = `Created by: ${poweredBy}`;
+        }
+
+        const nextAdminId = (document.getElementById('newAdminIdInput').value || '').trim();
+        if (nextAdminId) {
+            if (srUsers.some(u => u.id.toUpperCase() === nextAdminId.toUpperCase())) {
+                alert('এই Admin ID একটি SR User ব্যবহার করছে। অন্য ID দিন।'); return;
+            }
+            adminId = nextAdminId;
+            localStorage.setItem('provath_admin_id', adminId);
+        }
+        const np = normalizePass(document.getElementById('newPassInput').value);
+        if (np) {
+            adminPass = np;
+            localStorage.setItem('provath_login_admin_pass_v2', adminPass);
+        }
+
+        visibleIndices = products.slice(0, 7).map((_, idx) => idx);
+        quantities = {};
+        bankEntries = [{ bank: bankOptions[0], customBank: '', amount: '' }];
+        renderProducts();
+        renderBanks();
+        backToEntry();
+        alert('সব পরিবর্তন সফলভাবে সংরক্ষিত হয়েছে!');
+    }
+
+
+
+    initApp();
+</script>
+</body>
+</html>
